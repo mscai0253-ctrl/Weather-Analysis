@@ -11,10 +11,9 @@ from src.train import train_models
 from src.evaluate import evaluate_models
 from src.predict import predict_temp
 
-# 🔥 PAGE CONFIG
 st.set_page_config(page_title="Weather Dashboard", layout="wide")
 
-# 🔥 CUSTOM STYLING (PRO UI)
+
 st.markdown("""
 <style>
     .stMetric {
@@ -35,26 +34,26 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 🔥 TITLE
+
 st.markdown('<div class="main-title"> Advanced Weather Dashboard</div>', unsafe_allow_html=True)
 
-# 📊 LOAD DATA
+
 df = load_and_clean_data()
 
-# 🔥 SIDEBAR FILTERS
+
 st.sidebar.header(" Filters")
 
 city = st.sidebar.selectbox("Select City", df["City"].unique())
 filtered_df = df[df["City"] == city]
 
-# 📊 KPI CARDS
+
 col1, col2, col3 = st.columns(3)
 
 col1.metric(" Avg Temperature", f"{filtered_df['temperature'].mean():.2f} °C")
 col2.metric(" Avg Humidity", f"{filtered_df['Humidity_%'].mean():.2f}%")
 col3.metric(" Avg Rainfall", f"{filtered_df['Precipitation_mm'].mean():.2f} mm")
 
-# 📈 TEMPERATURE TREND
+
 st.subheader(" Temperature Trend")
 
 fig1 = px.line(
@@ -66,7 +65,7 @@ fig1 = px.line(
 )
 st.plotly_chart(fig1, use_container_width=True)
 
-# 📊 HUMIDITY VS TEMPERATURE
+
 st.subheader(" Humidity vs Temperature")
 
 fig2 = px.scatter(
@@ -79,7 +78,7 @@ fig2 = px.scatter(
 )
 st.plotly_chart(fig2, use_container_width=True)
 
-# 🌥️ WEATHER CONDITIONS
+
 st.subheader(" Weather Condition Distribution")
 
 fig3 = px.pie(
@@ -89,10 +88,10 @@ fig3 = px.pie(
 )
 st.plotly_chart(fig3)
 
-# 🤖 MODEL TRAINING
+
 models, X_test, y_test = train_models(df)
 
-# 📊 MODEL PERFORMANCE
+
 st.subheader(" Model Performance")
 
 results = evaluate_models(models, X_test, y_test)
@@ -107,7 +106,7 @@ fig4 = px.bar(
 )
 st.plotly_chart(fig4, use_container_width=True)
 
-# 🔮 PREDICTION SECTION
+
 st.subheader(" Predict Future Temperature")
 
 col1, col2, col3 = st.columns(3)
@@ -125,7 +124,7 @@ if st.button(" Predict Temperature"):
     
     st.success(f" Predicted Temperature: {result:.2f} °C")
 
-    # 🔥 EXTRA VISUAL FEEDBACK
+    
     if result > 35:
         st.warning(" Hot Weather Expected!")
     elif result < 15:
